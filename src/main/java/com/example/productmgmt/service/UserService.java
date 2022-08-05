@@ -28,11 +28,13 @@ public class UserService {
     }
 
     public void deleteById(long id) {
-
+        repo.deleteById(id);
     }
 
     public UserDto findById(long id) {
-        return null;
+        User user = repo.findById(id).get();
+
+        return user != null ? mapper.toDto(user) : null;
     }
 
     public List<UserDto> findAll() {
@@ -41,7 +43,7 @@ public class UserService {
         return mapper.toDto(repo.findAll());
     }
 
-    public UserDto update(UserDto userDto, long id) {
-        return null;
+    public UserDto update(UserDto userDto) {
+        return mapper.toDto(repo.save(mapper.toEntity(userDto)));
     }
 }
