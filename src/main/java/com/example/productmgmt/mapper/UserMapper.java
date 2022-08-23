@@ -33,8 +33,8 @@ public class UserMapper implements EntityMapper<UserDto, User>{
         dto.setId(entity.getId());
         dto.setUsername(entity.getUsername());
         dto.setPassword(entity.getPassword());
-        List<StockDto> dtos = stockMapper.toDto(entity.getStocks());
-        dto.setStocks(dtos);
+        List<StockDto> stockList = stockMapper.toDto(entity.getStocks());
+        dto.setStocks(stockList);
         return dto;
     }
 

@@ -1,7 +1,9 @@
 package com.example.productmgmt.service;
 
+import com.example.productmgmt.dto.StockDto;
 import com.example.productmgmt.dto.UserDto;
 import com.example.productmgmt.mapper.UserMapper;
+import com.example.productmgmt.model.Stock;
 import com.example.productmgmt.model.User;
 import com.example.productmgmt.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
@@ -24,6 +26,7 @@ public class UserService {
     public UserDto save(UserDto userDto) {
         //User user = mapper.toEntity(userDto);
         //User user1 = repo.save(user);
+        //return mapper.toDto(user1);
         return mapper.toDto(repo.save(mapper.toEntity(userDto)));
     }
 

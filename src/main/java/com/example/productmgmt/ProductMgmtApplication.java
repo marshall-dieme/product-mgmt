@@ -8,12 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class ProductMgmtApplication implements CommandLineRunner {
 
     @Autowired
     private UserRepository repo;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Autowired
     private UserService service;
@@ -26,7 +30,7 @@ public class ProductMgmtApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         User user = new User();
         user.setUsername("marshall");
-        user.setPassword("dieme");
+        user.setPassword(encoder.encode("dieme"));
 
         repo.save(user);
 
