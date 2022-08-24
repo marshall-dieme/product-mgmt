@@ -31,13 +31,15 @@ public class ProductMgmtApplication implements CommandLineRunner {
         User user = new User();
         user.setUsername("marshall");
         user.setPassword(encoder.encode("dieme"));
+        user.setRoles("admin");
 
         repo.save(user);
 
-        UserDto dto = new UserDto();
+        User dto = new User();
         dto.setUsername("Sougou");
-        dto.setPassword("malick");
+        dto.setPassword(encoder.encode("malick"));
+        dto.setRoles("user");
 
-        service.save(dto);
+        repo.save(dto);
     }
 }

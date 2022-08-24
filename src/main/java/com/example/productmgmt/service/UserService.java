@@ -8,6 +8,9 @@ import com.example.productmgmt.model.User;
 import com.example.productmgmt.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,7 +18,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repo;
@@ -48,5 +51,14 @@ public class UserService {
 
     public UserDto update(UserDto userDto) {
         return mapper.toDto(repo.save(mapper.toEntity(userDto)));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = repo.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("Bad Credentials");
+        }
+        return user;
     }
 }
