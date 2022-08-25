@@ -17,6 +17,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -68,7 +71,7 @@ public class UserController {
         authenticate(request.getUsername(), request.getPassword());
         UserDetails userDetails = service.loadUserByUsername(request.getUsername());
         User user = (User) userDetails;
-        logger.error(user.toString());
+        logger.error("User '" + request.getUsername() + "' is connected : " + SecurityContextHolder.getContext().getAuthentication().isAuthenticated() );
         return ResponseEntity.ok("Successfully connected");
     }
 
@@ -77,6 +80,11 @@ public class UserController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
+            /*UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            Authentication auth = authenticationManager.authenticate(token);
+            securityContext.setAuthentication(auth);*/
+
         }catch (BadCredentialsException e){
             throw new BadCredentialsException("Invalid Username or password");
         }catch (DisabledException e){
